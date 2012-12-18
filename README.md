@@ -1,0 +1,4 @@
+version
+=======
+
+Semantic Versioning implementation
