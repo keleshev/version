@@ -113,4 +113,4 @@ class Version(_Comparable):
                     self.pre_release == other.pre_release])
 
 
-__version__ = str(Version('0.0.0'))
+__version__ = str(Version('0.1.0'))

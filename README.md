@@ -1,6 +1,8 @@
 Semantic version implementation
 ============================================================
 
+    pip install version==0.1.0
+
 `Version` implements version object as described in 
 [Semantic Versioning spec 2.0.0-rc.1](http://semver.org).
 
