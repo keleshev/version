@@ -36,12 +36,12 @@ class _Seq(_Comparable):
         self.seq = seq
 
     def __lt__(self, other):
-        #if self.seq == [] or other.seq == []:
-        #    return other.seq == []
-        if len(self.seq) != len(other.seq):
-            raise NotImplementedError(self.seq, other.seq)
         assert set([int, str]) >= set(map(type, self.seq))
-        for s, o in zip(self.seq, other.seq):
+        # map, unlike zip does not truncate, but extends with None
+        for s, o in map(lambda a, b: (a, b), self.seq, other.seq):
+            assert not (s is None and o is None)
+            if s is None or o is None:
+                return bool(s is None)
             if type(s) is int and type(o) is int:
                 if s < o:
                     return True
@@ -92,25 +92,24 @@ class Version(_Comparable):
 
     def __lt__(self, other):
         if self._mmp() == other._mmp():
-            if self.pre_release and other.pre_release:
-                if self.pre_release == other.pre_release:
-                    if self.build and other.build:
-                        return _Seq(self.build) < _Seq(other.build)
-                    else:
-                        return bool(other.build)
-                else:
-                    return _Seq(self.pre_release) < _Seq(other.pre_release)
+            if self.pre_release == other.pre_release:
+                if self.build == other.build:
+                    return False
+                elif self.build and other.build:
+                    return _Seq(self.build) < _Seq(other.build)
+                elif self.build or other.build:
+                    return bool(other.build)
+                assert not 'reachable'
+            elif self.pre_release and other.pre_release:
+                return _Seq(self.pre_release) < _Seq(other.pre_release)
             elif self.pre_release or other.pre_release:
                 return bool(self.pre_release)
-            else: 
-                    if self.build and other.build:
-                        return _Seq(self.build) < _Seq(other.build)
-                    else:
-                        return bool(other.build)
+            assert not 'reachable'
         return self._mmp() < other._mmp()
 
     def __eq__(self, other):
         return all([self._mmp() == other._mmp(),
+                    self.build == other.build,
                     self.pre_release == other.pre_release])
 
 
