@@ -22,9 +22,10 @@ class VersionError(Exception):
     pass
 
 
-_re = re.compile('(\d+)\.(\d+)\.(\d+)'  # minor, major, patch
-                 '(-[0-9A-Za-z-\.]+){0,1}'  # pre-release
-                 '(\+[0-9A-Za-z-\.]+){0,1}'  # build
+_re = re.compile('^'
+                 '(\d+)\.(\d+)\.(\d+)'  # minor, major, patch
+                 '(-[0-9A-Za-z-\.]+)?'  # pre-release
+                 '(\+[0-9A-Za-z-\.]+)?'  # build
                  '$')
 
 
