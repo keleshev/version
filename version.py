@@ -1,21 +1,15 @@
 import re
+from itertools import izip_longest
 
 
 class _Comparable(object):
 
-    """Implements rich comparison if __lt__ and __eq__ are provided."""
+    """Rich comparison operators based on __lt__ and __eq__."""
 
-    def __gt__(self, other):
-        return not self < other and not self == other
-
-    def __le__(self, other):
-        return self < other or self == other
-
-    def __ne__(self, other):
-        return not self == other
-
-    def __ge__(self, other):
-        return self > other or self == other
+    __gt__ = lambda self, other: not self < other and not self == other
+    __le__ = lambda self, other: self < other or self == other
+    __ne__ = lambda self, other: not self == other
+    __ge__ = lambda self, other: self > other or self == other
 
 
 class VersionError(Exception):
@@ -38,8 +32,7 @@ class _Seq(_Comparable):
 
     def __lt__(self, other):
         assert set([int, str]) >= set(map(type, self.seq))
-        # map, unlike zip does not truncate, but extends with None
-        for s, o in map(lambda a, b: (a, b), self.seq, other.seq):
+        for s, o in izip_longest(self.seq, other.seq):
             assert not (s is None and o is None)
             if s is None or o is None:
                 return bool(s is None)
@@ -74,8 +67,8 @@ class Version(_Comparable):
         if not match:
             raise VersionError('invalid version %r' % version)
         self.major, self.minor, self.patch = map(int, match.groups()[:3])
-        self.pre_release = _make_group(match.groups()[3])
-        self.build = _make_group(match.groups()[4])
+        self.pre_release = _make_group(match.group(4))
+        self.build = _make_group(match.group(5))
 
     def __str__(self):
         s = '.'.join(str(s) for s in self._mmp())

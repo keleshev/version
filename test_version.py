@@ -5,7 +5,7 @@ from version import Version, VersionError
 
 def test_section_2():
     """Section 2: Major, minor, patch.
-    
+
     A normal version number MUST take the form X.Y.Z where
     X, Y, and Z are non-negative integers. X is the major
     version, Y is the minor version, and Z is the patch
@@ -32,15 +32,15 @@ def test_section_2():
 
 def test_section_3():
     """Section 3.
-    
+
     When a major version number is incremented, the minor
     version and patch version MUST be reset to zero. When a
     minor version number is incremented, the patch version
     MUST be reset to zero. For instance: 1.1.3 -> 2.0.0 and
     2.1.7 -> 2.2.0.
-    
+
     """
-    assert Version('1.1.3') < Version('2.0.0') 
+    assert Version('1.1.3') < Version('2.0.0')
     assert Version('2.1.7') < Version('2.2.0')
 
 
@@ -69,7 +69,7 @@ def test_section_10():
         Version('1.0.0-')
     with raises(VersionError):
         Version('1.0.0-$#%')
-    
+
     assert Version('1.0.0') > Version('1.0.0-alpha')
     assert Version('1.0.0-alpha') < Version('1.0.0')
 
@@ -123,10 +123,9 @@ def test_section_12():
         '1.3.7+build',
         '1.3.7+build.2.b8f12d7',
         '1.3.7+build.11.e0f985a',
-        ]
+    ]
     from random import shuffle
     randomized = list(presorted)
     shuffle(randomized)
     fixed = map(str, sorted(map(Version, randomized)))
-    print fixed
     assert fixed == presorted
