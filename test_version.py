@@ -129,3 +129,14 @@ def test_section_12():
     shuffle(randomized)
     fixed = map(str, sorted(map(Version, randomized)))
     assert fixed == presorted
+
+
+def test_comparing_against_non_version():
+
+    with raises(TypeError) as exception:
+        Version('1.0.0') > None
+    assert 'cannot compare' in repr(exception.value)
+
+    with raises(TypeError) as exception:
+        Version('1.0.0') == object()
+    assert 'cannot compare' in repr(exception.value)

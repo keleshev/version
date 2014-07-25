@@ -85,6 +85,7 @@ class Version(_Comparable):
         return [self.major, self.minor, self.patch]
 
     def __lt__(self, other):
+        self._assume_to_be_comparable(other)
         if self._mmp() == other._mmp():
             if self.pre_release == other.pre_release:
                 if self.build == other.build:
@@ -102,9 +103,14 @@ class Version(_Comparable):
         return self._mmp() < other._mmp()
 
     def __eq__(self, other):
+        self._assume_to_be_comparable(other)
         return all([self._mmp() == other._mmp(),
                     self.build == other.build,
                     self.pre_release == other.pre_release])
+
+    def _assume_to_be_comparable(self, other):
+        if not isinstance(other, Version):
+            raise TypeError('cannot compare `%r` with `%r`' % (self, other))
 
 
 __version__ = str(Version('0.1.0'))
