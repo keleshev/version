@@ -113,4 +113,4 @@ class Version(_Comparable):
             raise TypeError('cannot compare `%r` with `%r`' % (self, other))
 
 
-__version__ = str(Version('0.1.0'))
+__version__ = str(Version('0.1.1'))
