@@ -1,5 +1,11 @@
+from __future__ import print_function
+import sys
 import re
-from itertools import izip_longest
+
+if sys.version_info >= (3, 0):
+    from itertools import zip_longest as izip_longest
+else:
+    from itertools import izip_longest
 
 
 class _Comparable(object):
@@ -57,7 +63,7 @@ def _try_int(s):
 
 
 def _make_group(g):
-    return [] if g is None else map(_try_int, g[1:].split('.'))
+    return [] if g is None else list(map(_try_int, g[1:].split('.')))
 
 
 class Version(_Comparable):
@@ -113,4 +119,4 @@ class Version(_Comparable):
             raise TypeError('cannot compare `%r` with `%r`' % (self, other))
 
 
-__version__ = str(Version('0.1.1'))
+__version__ = str(Version('0.1.2'))

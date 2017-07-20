@@ -1,7 +1,7 @@
 Semantic version implementation
 ============================================================
 
-    pip install version==0.1.1
+    pip install version==0.1.2
 
 `Version` implements version object as described in
 [Semantic Versioning spec 2.0.0-rc.1](http://semver.org).
@@ -67,6 +67,7 @@ and thus can be sorted:
 
 ```python
 
+>>> from __future__ import print_function
 >>> versions = [Version('1.0.0+0.3.7'),
 ...             Version('1.0.0'),
 ...             Version('1.0.0-beta.11'),
@@ -75,7 +76,7 @@ and thus can be sorted:
 ...             Version('1.0.0-rc.1+build.1'),
 ...             Version('1.0.0-alpha.1')]
 
->>> print '\n'.join(map(str, sorted(versions)))
+>>> print('\n'.join(map(str, sorted(versions))))
 0.9.0
 1.0.0-alpha.1
 1.0.0-beta.11

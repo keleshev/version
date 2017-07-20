@@ -127,7 +127,7 @@ def test_section_12():
     from random import shuffle
     randomized = list(presorted)
     shuffle(randomized)
-    fixed = map(str, sorted(map(Version, randomized)))
+    fixed = list(map(str, sorted(map(Version, randomized))))
     assert fixed == presorted
 
 
